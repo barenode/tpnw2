@@ -7,7 +7,7 @@
 	
 	<context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:spring-context.xml</param-value>
+        <param-value>classpath:spring-context-dbles.xml</param-value>
     </context-param>
     <context-param>
         <param-name>wicket.configuration</param-name>
@@ -17,14 +17,14 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
+    
+    <!-- 
     <filter>
         <filter-name>em-view</filter-name>
-        <filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>        
-        <!-- 
-        <filter-class>org.springframework.orm.hibernate5.support.OpenSessionInViewFilter</filter-class>
-         -->
+        <filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>       
     </filter>
-    
+     -->
+     
     <filter>
         <filter-name>app</filter-name>
         <filter-class>org.apache.wicket.protocol.http.WicketFilter</filter-class>
@@ -37,12 +37,13 @@
             <param-value>tpnw2.WicketApplication</param-value>
         </init-param>
     </filter>
-
+<!-- 
     <filter-mapping>
         <filter-name>em-view</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-
+ -->
+ 
     <filter-mapping>
         <filter-name>app</filter-name>
         <url-pattern>/*</url-pattern>

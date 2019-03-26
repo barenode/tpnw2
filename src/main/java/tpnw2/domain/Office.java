@@ -11,6 +11,12 @@ public class Office implements Serializable {
 	public Office() {
 		super();
 	}
+	
+	public Office(Integer id, String city) {
+		super();
+		this.id = id;
+		this.city = city;
+	}
 
 	public Integer getId() {
 		return id;

@@ -25,7 +25,8 @@ public class HomePage extends WebPage {
 	public HomePage(final PageParameters parameters) {
 		super(parameters);
 		List<IColumn<Office, String>> columns = new ArrayList<>();		
-		columns.add(new PropertyColumn<>(Model.of("city"), "city"));
+		columns.add(new PropertyColumn<>(Model.of("city"), "city", "city"));
+		columns.add(new PropertyColumn<>(Model.of("city"), "city", "city"));
 		Table<Office, String> table = new Table<>("table", columns, new OfficeDataProvider(), 10); 
 		add(table);		
 	}
@@ -34,6 +35,7 @@ public class HomePage extends WebPage {
 
 		@Override
 		public Iterator<? extends Office> iterator(long first, long count) {
+			System.out.println(">> iterator " + first + "/" + count + "|" + getSortState());
 			return officeDao.findAll().iterator();
 		}
 
