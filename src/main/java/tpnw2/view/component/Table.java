@@ -8,7 +8,6 @@ import org.apache.wicket.extensions.markup.html.repeater.data.table.DataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.HeadersToolbar;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.ISortableDataProvider;
-import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
@@ -31,30 +30,32 @@ public class Table<T, S> extends Panel {
 	 */
 	public static class LinkColumn<T, S> extends AbstractColumn<T, S> {
 
+		private final IModel<String> labelModel;
 		private final String cssClass;
 		
-		public LinkColumn(String cssClass) {
-			this(Model.of(""), cssClass);
+		public LinkColumn(IModel<String> labelModel, String cssClass) {
+			this(Model.of(""), labelModel, cssClass);
 		}
 		
-		public LinkColumn(IModel<String> displayModel, String cssClass) {
+		public LinkColumn(IModel<String> displayModel, IModel<String> labelModel, String cssClass) {
 			super(displayModel);
+			this.labelModel = labelModel;
 			this.cssClass = cssClass;
 		}
 
 		@Override
 		public void populateItem(Item<ICellPopulator<T>> cellItem, String componentId, IModel<T> rowModel) {
-			cellItem.add(new Link<T>(componentId) {
+			cellItem.add(new FancyButton(componentId, labelModel, cssClass) {
 				@Override
 				public void onClick() {
 					System.out.println(rowModel);
-				}				
+				}		
 			});
 		}
 
 		@Override
 		public String getCssClass() {
-			return cssClass;
-		}	
+			return "table-column-button";
+		}				
 	}
 }

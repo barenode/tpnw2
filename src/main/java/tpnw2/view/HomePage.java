@@ -26,7 +26,8 @@ public class HomePage extends WebPage {
 		super(parameters);
 		List<IColumn<Office, String>> columns = new ArrayList<>();		
 		columns.add(new PropertyColumn<>(Model.of("city"), "city", "city"));
-		columns.add(new PropertyColumn<>(Model.of("city"), "city", "city"));
+		columns.add(new Table.LinkColumn<>(Model.of(" Edit"), "fa-edit"));
+		columns.add(new Table.LinkColumn<>(Model.of(" Delete"), "fa-remove"));
 		Table<Office, String> table = new Table<>("table", columns, new OfficeDataProvider(), 10); 
 		add(table);		
 	}
