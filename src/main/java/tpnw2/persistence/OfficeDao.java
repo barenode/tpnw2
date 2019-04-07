@@ -3,8 +3,9 @@ package tpnw2.persistence;
 import java.util.function.Function;
 
 import tpnw2.domain.Office;
+import tpnw2.domain.OfficeCriteria;
 
-public interface OfficeDao {
+public interface OfficeDao extends Dao<Office, OfficeCriteria> {
 
 	Function<OfficeEntity, Office> toValueObject = e -> {
 		Office valueObject = new Office();

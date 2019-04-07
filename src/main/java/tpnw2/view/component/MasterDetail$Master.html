@@ -1,0 +1,42 @@
+<wicket:panel xmlns:wicket="http://wicket.apache.org">	
+<!--
+<div class="panel-heading">DataTables Advanced Tables</div>
+-->                        
+<div class="panel-body">
+	<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+		
+		<div class="row">          
+			<div class="col-sm-6">
+				<div class="dataTables_length">
+					<button wicket:id="newItem" type="button" class="btn btn-default">
+						<i class="fa fa-plus" /> <wicket:message key="button.newItem" />
+					</button>
+				</div>							
+			</div>  
+								
+				        
+			<div class="col-sm-6">
+				<div class="dataTables_filter">
+					<form wicket:id="criteriaForm">
+						<wicket:container wicket:id="criteria" /> 
+						<button wicket:id="search" type="button" class="btn btn-default">
+							<i class="fa fa-search" /> <wicket:message key="button.search" />
+						</button>
+					</form>	
+				</div>
+			</div>
+		</div>
+		
+		
+		<!-- grid -->
+		<div class="row">			
+			<div class="col-sm-12">
+				<table wicket:id="table" width="100%" class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline collapsed" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info" style="width: 100%;" />
+			</div>
+		</div>
+		
+		<!-- pagination -->
+		<div class="row" wicket:id="pagination" />											
+	</div>
+</div>						
+</wicket:panel>	
