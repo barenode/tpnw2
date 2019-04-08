@@ -6,6 +6,8 @@ import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
+import tpnw2.view.CarPage;
+import tpnw2.view.EmployeePage;
 import tpnw2.view.OfficePage;
 
 /**
@@ -25,7 +27,7 @@ public class WicketApplication extends WebApplication {//AuthenticatedWebApplica
 	@Override
 	public Class<? extends WebPage> getHomePage()
 	{
-		return OfficePage.class;
+		return CarPage.class;
 	}
 
 	/**

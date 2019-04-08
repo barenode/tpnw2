@@ -15,11 +15,11 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.apache.wicket.extensions.markup.html.repeater.util.SortParam;
+import org.springframework.transaction.annotation.Transactional;
 
 public abstract class DaoBase<T extends Serializable, C extends Serializable, E> implements Dao<T, C> {
 
-	@PersistenceContext
-	private EntityManager em;	
+	protected abstract EntityManager em();
 	
 	protected abstract Predicate buildCriteria(CriteriaBuilder builder, Root<E> root, C criteria);
 	
@@ -35,7 +35,7 @@ public abstract class DaoBase<T extends Serializable, C extends Serializable, E>
 	
 	@Override
 	public final long count(C criteria) {
-		CriteriaBuilder builder = em.getCriteriaBuilder();
+		CriteriaBuilder builder = em().getCriteriaBuilder();
 		CriteriaQuery<Long> query = builder.createQuery(Long.class);
 		Root<E> root = query.from(getEntityClass());
 		query.select(builder.count(root));
@@ -43,20 +43,20 @@ public abstract class DaoBase<T extends Serializable, C extends Serializable, E>
 		if (predicate!=null) {
 			query.where(predicate);
 		}		
-		return em.createQuery(query).getSingleResult();	
+		return em().createQuery(query).getSingleResult();	
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<T> findAll(C criteria) {
-		CriteriaBuilder builder = em.getCriteriaBuilder();
+		CriteriaBuilder builder = em().getCriteriaBuilder();
 		CriteriaQuery<E> criteriaQuery = builder.createQuery(getEntityClass());
 		Root<E> root = criteriaQuery.from(getEntityClass());		
 		Predicate predicate = buildCriteria(builder, root, criteria);
 		if (predicate!=null) {
 			criteriaQuery.where(predicate);
 		}	
-		Query query = em.createQuery(criteriaQuery);
+		Query query = em().createQuery(criteriaQuery);
 		List<E> entitites = query.getResultList();	
 		return entitites.stream().map(valueObjectConversion()).collect(toList());
 	}
@@ -64,7 +64,7 @@ public abstract class DaoBase<T extends Serializable, C extends Serializable, E>
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<T> page(long first, long count, C criteria, SortParam<String> sort) {
-		CriteriaBuilder builder = em.getCriteriaBuilder();
+		CriteriaBuilder builder = em().getCriteriaBuilder();
 		CriteriaQuery<E> criteriaQuery = builder.createQuery(getEntityClass());
 		Root<E> root = criteriaQuery.from(getEntityClass());		
 		criteriaQuery.select(root);
@@ -77,7 +77,7 @@ public abstract class DaoBase<T extends Serializable, C extends Serializable, E>
 		} else {
 			criteriaQuery.orderBy(builder.desc(root.get(sort.getProperty())));
 		}	
-		Query query = em.createQuery(criteriaQuery);
+		Query query = em().createQuery(criteriaQuery);
 		query.setFirstResult((int)first);
 		query.setMaxResults((int)count);		
 		List<E> entitites = query.getResultList();	
@@ -85,19 +85,21 @@ public abstract class DaoBase<T extends Serializable, C extends Serializable, E>
 	}
 
 	@Override
+	@Transactional
 	public void remove(T item) {
-		E entity = em.find(getEntityClass(), getKey(item));
+		E entity = em().find(getEntityClass(), getKey(item));
 		if (entity!=null) {
-			em.remove(entity);		
+			em().remove(entity);		
 		}		
 	}
 
 	@Override
+	@Transactional
 	public void save(T item) {
 		if (isNewItem(item)) {
-			em.persist(entityConversion().apply(item));		
+			em().persist(entityConversion().apply(item));		
 		} else {
-			em.merge(entityConversion().apply(item));		
+			em().merge(entityConversion().apply(item));		
 		}
 	}
 }
