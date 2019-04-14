@@ -8,6 +8,9 @@ import tpnw2.domain.OfficeCriteria;
 public interface OfficeDao extends Dao<Office, OfficeCriteria> {
 
 	Function<OfficeEntity, Office> toValueObject = e -> {
+		if (e==null) {
+			return null;
+		}
 		Office valueObject = new Office();
 		valueObject.setId(e.getId());
 		valueObject.setCity(e.getCity());
@@ -15,6 +18,9 @@ public interface OfficeDao extends Dao<Office, OfficeCriteria> {
 	};
 	
 	Function<Office, OfficeEntity> toEntity = v -> {
+		if (v==null) {
+			return null;
+		}
 		OfficeEntity entity = new OfficeEntity();
 		entity.setId(v.getId());
 		entity.setCity(v.getCity());

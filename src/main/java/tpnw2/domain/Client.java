@@ -1,55 +1,31 @@
 package tpnw2.domain;
 
 import java.io.Serializable;
-import java.util.List;
 
-public class Employee implements Serializable {
+public class Client implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;
-	private String firstname;
-	private String lastname;
-	private List<Car> cars;
+	private String phone;
 	
-	public Employee() {
+	public Client() {
 		super();
 	}
-
+	
 	public Integer getId() {
 		return id;
 	}
-
+	
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
-	public String getFirstname() {
-		return firstname;
+	
+	public String getPhone() {
+		return phone;
 	}
-
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
-
-	public String getLastname() {
-		return lastname;
-	}
-
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
-	}		
-
-	public List<Car> getCars() {
-		return cars;
-	}
-
-	public void setCars(List<Car> cars) {
-		this.cars = cars;
-	}
-
-	@Override
-	public String toString() {
-		return firstname + " " + lastname;
+	
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 	@Override
@@ -57,6 +33,7 @@ public class Employee implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
 		return result;
 	}
 
@@ -68,11 +45,16 @@ public class Employee implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Employee other = (Employee) obj;
+		Client other = (Client) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
+			return false;
+		if (phone == null) {
+			if (other.phone != null)
+				return false;
+		} else if (!phone.equals(other.phone))
 			return false;
 		return true;
 	}	

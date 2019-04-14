@@ -11,7 +11,7 @@ public interface CarDao extends Dao<Car, CarCriteria> {
 		Car valueObject = new Car();
 		valueObject.setId(e.getId());
 		valueObject.setNumberplate(e.getNumberplate());
-		valueObject.setOwner(EmployeeDao.toValueObject.apply(e.getOwner()));
+		valueObject.setOwner(EmployeeDao.toValueObjectLight.apply(e.getOwner()));
 		return valueObject;
 	};
 	

@@ -34,6 +34,7 @@ public abstract class DaoBase<T extends Serializable, C extends Serializable, E>
 	protected abstract boolean isNewItem(T item);
 	
 	@Override
+	@Transactional
 	public final long count(C criteria) {
 		CriteriaBuilder builder = em().getCriteriaBuilder();
 		CriteriaQuery<Long> query = builder.createQuery(Long.class);
@@ -48,6 +49,7 @@ public abstract class DaoBase<T extends Serializable, C extends Serializable, E>
 
 	@Override
 	@SuppressWarnings("unchecked")
+	@Transactional
 	public List<T> findAll(C criteria) {
 		CriteriaBuilder builder = em().getCriteriaBuilder();
 		CriteriaQuery<E> criteriaQuery = builder.createQuery(getEntityClass());
@@ -63,6 +65,7 @@ public abstract class DaoBase<T extends Serializable, C extends Serializable, E>
 
 	@Override
 	@SuppressWarnings("unchecked")
+	@Transactional
 	public List<T> page(long first, long count, C criteria, SortParam<String> sort) {
 		CriteriaBuilder builder = em().getCriteriaBuilder();
 		CriteriaQuery<E> criteriaQuery = builder.createQuery(getEntityClass());

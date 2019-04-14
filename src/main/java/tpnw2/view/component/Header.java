@@ -1,4 +1,4 @@
-package tpnw2.view.layout;
+package tpnw2.view.component;
 
 import org.apache.wicket.markup.html.panel.Panel;
 

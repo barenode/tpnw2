@@ -5,8 +5,8 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-import tpnw2.view.layout.Header;
-import tpnw2.view.layout.Menu;
+import tpnw2.view.component.Header;
+import tpnw2.view.component.Menu;
 
 @SuppressWarnings("serial")
 public class PageBase extends WebPage {

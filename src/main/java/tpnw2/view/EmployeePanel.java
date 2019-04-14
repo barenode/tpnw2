@@ -14,5 +14,6 @@ public class EmployeePanel extends Panel {
 		super(id);
 		add(new TextField<String>("firstname", new PropertyModel<>(model, "firstname")).setRequired(true));
 		add(new TextField<String>("lastname", new PropertyModel<>(model, "lastname")).setRequired(true));
+		add(new CarMultipleChoice("cars", new PropertyModel<>(model, "cars")));
 	}
 }
