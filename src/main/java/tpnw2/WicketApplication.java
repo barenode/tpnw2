@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
 import tpnw2.report.ReportPage;
-import tpnw2.view.HomePage;
 
 /**
  * Application object for your web application.

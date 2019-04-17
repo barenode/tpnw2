@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import tpnw2.view.PageBase;
@@ -20,7 +21,16 @@ public class ReportPage extends PageBase {
 	
 	public ReportPage(PageParameters parameters) {
 		super(parameters);
-		add(new MorrisChart<>("test-chart", "Area", ds()));
+		add(new Dashboard("main"));
+		
+	}
+	
+	private final class Dashboard extends Panel {
+
+		public Dashboard(String id) {
+			super(id);
+			add(new MorrisChart<>("test-chart", "Area", ds()));
+		}		
 	}
 
 	private Dataset<TestRecord> ds() {
