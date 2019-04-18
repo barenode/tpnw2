@@ -1,12 +1,15 @@
 package tpnw2;
 
+import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSession;
+import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
-import tpnw2.report.ReportPage;
+import tpnw2.view.DashboardPage;
+import tpnw2.view.LoginPage;
 
 /**
  * Application object for your web application.
@@ -14,7 +17,7 @@ import tpnw2.report.ReportPage;
  * 
  * @see tpw2.Start#main(String[])
  */
-public class WicketApplication extends WebApplication {//AuthenticatedWebApplication {
+public class WicketApplication extends WebApplication { //AuthenticatedWebApplication {//extends WebApplication {//
 
 	@Autowired
 	private ApplicationContext applicationContext;
@@ -25,7 +28,7 @@ public class WicketApplication extends WebApplication {//AuthenticatedWebApplica
 	@Override
 	public Class<? extends WebPage> getHomePage()
 	{
-		return ReportPage.class;
+		return DashboardPage.class;
 	}
 
 	/**
@@ -36,18 +39,15 @@ public class WicketApplication extends WebApplication {//AuthenticatedWebApplica
 	{
 		super.init();
 		getComponentInstantiationListeners().add(new SpringComponentInjector(this, applicationContext, true));
-		// add your configuration here
 	}
 
 //	@Override
 //	protected Class<? extends AbstractAuthenticatedWebSession> getWebSessionClass() {
-//		// TODO Auto-generated method stub
-//		return null;
+//		return SecuredSession.class;
 //	}
 //
 //	@Override
 //	protected Class<? extends WebPage> getSignInPageClass() {
-//		// TODO Auto-generated method stub
-//		return null;
+//		return LoginPage.class;
 //	}
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-public abstract class CursorStoredProcedureTemplate<V, K extends StoredProcedureArgs> extends StoredProcedureTemplate<List<V>, K> {
+public abstract class CursorStoredProcedureTemplate<V, K> extends StoredProcedureTemplate<List<V>, K> {
 	
 	public CursorStoredProcedureTemplate(DataSource dataSource) {
 		super(dataSource);

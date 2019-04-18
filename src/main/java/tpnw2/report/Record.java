@@ -3,6 +3,8 @@ package tpnw2.report;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Map;
 
@@ -25,6 +27,8 @@ public interface Record extends Serializable {
 			return String.valueOf(o);
 		} else if (o instanceof Date) {
 			return "'" + format((Date)o) + "'";
+		} else if (o instanceof LocalDate) {
+			return "'" + ((LocalDate)o).format(DateTimeFormatter.ISO_DATE) + "'";
 		} else {
 			return "'" + o.toString() + "'";
 		}

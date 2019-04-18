@@ -8,7 +8,7 @@ import java.util.Date;
 
 import javax.sql.DataSource;
 
-public abstract class StoredProcedureTemplate<V, K extends StoredProcedureArgs> {
+public abstract class StoredProcedureTemplate<V, K> {
 
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	private static final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
