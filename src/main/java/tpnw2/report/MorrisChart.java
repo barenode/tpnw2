@@ -99,7 +99,6 @@ public class MorrisChart<T extends Record> extends WebMarkupContainer {
 			}
 			buffer.append("]\n");
 		}
-		buffer.append(",xLabels: 'day'\n");
 		buffer.append(",hideHover: 'auto'\n");
 		buffer.append(",resize: true\n");
 		buffer.append("});\n");

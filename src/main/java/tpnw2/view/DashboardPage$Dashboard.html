@@ -1,12 +1,23 @@
 <wicket:panel>
 <div class="row">   
-    <div class="col-lg-6">
+    <div wicket:id="ordercountChart" class="col-lg-6">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Area Chart Example
+                <wicket:message key="chart.ordercount"/>
             </div>
             <div class="panel-body">
-                <div wicket:id="test-chart"></div>
+                <div wicket:id="chart"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div wicket:id="ratioChart" class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <wicket:message key="chart.ratio"/>
+            </div>
+            <div class="panel-body">
+                <div wicket:id="chart"></div>
             </div>
         </div>
     </div>
