@@ -28,12 +28,19 @@
     </bean>
  -->	
 	<context:property-placeholder location="classpath:persistence-sqlserver.properties"/>
+	<!--
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="jdbc/TPNW2DS" />
+	</bean>	
+	  -->	
+	  
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
 		p:driverClassName="${jdbc.driverClassName}" 
 		p:url="${jdbc.url}"
 		p:username="${jdbc.username}" 
 		p:password="${jdbc.password}" />
+
 		
 <!-- 
     <bean id="dataSource" class="org.apache.tomcat.dbcp.dbcp2.BasicDataSource">

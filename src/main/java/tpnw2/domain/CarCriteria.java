@@ -11,6 +11,11 @@ public class CarCriteria implements Serializable {
 	public CarCriteria() {
 		super();
 	}
+	
+	public CarCriteria(String numberplate) {
+		super();
+		this.numberplate = numberplate;
+	}
 
 	public String getNumberplate() {
 		return numberplate;

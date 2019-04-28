@@ -1,5 +1,6 @@
 package tpnw2.persistence;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -48,9 +49,19 @@ public class OrderEntity {
 	@JoinColumn(name="id_driver", referencedColumnName="id_employee", nullable=true)
 	private EmployeeEntity driver;
 	
-	@ManyToOne(cascade = {CascadeType.ALL})
+	@ManyToOne(cascade = {CascadeType.MERGE})
 	@JoinColumn(name="id_client", referencedColumnName="id_client", nullable=true)
 	private ClientEntity client;
+	
+	@Column(name="distance_in_km")
+	private Integer distance;
+	
+	@Column(name="price_in_czk")
+	private BigDecimal price;
+	
+	@ManyToOne
+	@JoinColumn(name="id_car", referencedColumnName="id_car", nullable=true)
+	private CarEntity car;
 	
 	public OrderEntity() {
 		super();
@@ -126,5 +137,29 @@ public class OrderEntity {
 
 	public void setClient(ClientEntity client) {
 		this.client = client;
+	}
+
+	public Integer getDistance() {
+		return distance;
+	}
+
+	public void setDistance(Integer distance) {
+		this.distance = distance;
+	}
+
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+
+	public CarEntity getCar() {
+		return car;
+	}
+
+	public void setCar(CarEntity car) {
+		this.car = car;
 	}	
 }

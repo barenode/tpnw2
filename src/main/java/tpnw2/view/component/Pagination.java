@@ -55,6 +55,11 @@ public class Pagination extends Panel {
 					}
 				});
 				return item;
+			}
+
+			@Override
+			public int getViewSize() {
+				return 5;
 			}			
 		});
 	}

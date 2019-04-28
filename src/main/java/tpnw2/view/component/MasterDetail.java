@@ -33,6 +33,7 @@ public abstract class MasterDetail<T extends Serializable, C extends Serializabl
 	private long currentPage = 0;
 	private C criteria;
 	private String sortProperty;
+	private SortOrder sortOrder;
 	
 	public MasterDetail(String id, Dao<T, C> dao) {
 		super(id);
@@ -41,6 +42,7 @@ public abstract class MasterDetail<T extends Serializable, C extends Serializabl
 		add(new EmptyPanel("content"));		
 		criteria = newCriteria();
 		sortProperty = defaultSortProperty();
+		sortOrder = defaultSortOrder();
 		master();		
 	}		
 	
@@ -48,7 +50,19 @@ public abstract class MasterDetail<T extends Serializable, C extends Serializabl
 	
 	protected abstract T newItem();	
 	
+	protected boolean newItemEnabled() {
+		return true;
+	}
+	
+	protected boolean removeEnabled(IModel<T> model) {
+		return true;
+	}
+	
 	protected abstract boolean checkBeforePersist(T item);
+	
+	protected boolean checkBeforeRemove(T item) {
+		return true;
+	}
 	
 	protected abstract Panel itemPanel(String id, IModel<T> model);
 	
@@ -57,6 +71,10 @@ public abstract class MasterDetail<T extends Serializable, C extends Serializabl
 	protected abstract Panel criteriaPanel(String id, IModel<C> model);
 	
 	protected abstract String defaultSortProperty();		
+	
+	protected SortOrder defaultSortOrder() {
+		return SortOrder.ASCENDING;
+	}			
 	
 	protected void master() {
 		MasterDetail.this.replace(new Master("content", getColumns()));
@@ -74,6 +92,10 @@ public abstract class MasterDetail<T extends Serializable, C extends Serializabl
 		private final IModel<String> labelModel;
 		private final String cssClass;
 		
+		public LinkColumn(IModel<String> labelModel) {
+			this(Model.of(""), labelModel, null);
+		}
+		
 		public LinkColumn(IModel<String> labelModel, String cssClass) {
 			this(Model.of(""), labelModel, cssClass);
 		}
@@ -90,7 +112,12 @@ public abstract class MasterDetail<T extends Serializable, C extends Serializabl
 				@Override
 				public void onClick() {
 					LinkColumn.this.onClick(rowModel);
-				}		
+				}
+
+				@Override
+				public boolean isEnabled() {
+					return LinkColumn.this.isEnabled(rowModel);
+				}									
 			});
 		}
 
@@ -98,6 +125,10 @@ public abstract class MasterDetail<T extends Serializable, C extends Serializabl
 		public String getCssClass() {
 			return "table-column-button";
 		}		
+		
+		protected boolean isEnabled(IModel<T> model) {
+			return true;
+		}
 		
 		protected abstract void onClick(IModel<T> model);
 	}
@@ -117,10 +148,16 @@ public abstract class MasterDetail<T extends Serializable, C extends Serializabl
 			allColumns.add(new LinkColumn<T>(new ResourceModel("button.delete"), "fa-remove"){
 				@Override
 				protected void onClick(IModel<T> model) {
-					dao.remove(model.getObject());
+					if (checkBeforeRemove(model.getObject())) {
+						dao.remove(model.getObject());
+					}					
+				}	
+				@Override
+				protected boolean isEnabled(IModel<T> model) {
+					return removeEnabled(model);
 				}	
 			});		
-			SortableDataProvider<T, String> dataProvider = new DataProvider(sortProperty);
+			SortableDataProvider<T, String> dataProvider = new DataProvider(sortProperty, sortOrder);
 			DataTable<T, String> table = new DataTable<T, String>("table", allColumns, dataProvider, ROWS_PER_PAGE) {
 				@Override
 				protected void onBeforeRender() {
@@ -136,7 +173,12 @@ public abstract class MasterDetail<T extends Serializable, C extends Serializabl
 				@Override
 				public void onClick() {
 					detail(Model.of(newItem()));
-				}			
+				}
+
+				@Override
+				public boolean isEnabled() {
+					return MasterDetail.this.newItemEnabled();
+				}
 			});	
 			
 			//criteria
@@ -175,9 +217,9 @@ public abstract class MasterDetail<T extends Serializable, C extends Serializabl
 	
 	private class DataProvider extends SortableDataProvider<T, String> {
 		
-		public DataProvider(String sortProperty) {
+		public DataProvider(String sortProperty, SortOrder sortOrder) {
 			super();
-			this.setSort(sortProperty, SortOrder.ASCENDING);
+			this.setSort(sortProperty, sortOrder);
 		}
 
 		@Override

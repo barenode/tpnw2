@@ -13,6 +13,8 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import tpnw2.domain.Car;
 import tpnw2.domain.CarCriteria;
+import tpnw2.domain.Employee;
+import tpnw2.domain.EmployeeCriteria;
 import tpnw2.persistence.CarDao;
 import tpnw2.view.component.MasterDetail;
 
@@ -59,7 +61,15 @@ public class CarPage extends PageBase {
 
 			@Override
 			protected boolean checkBeforePersist(Car item) {
-				//error("Duplicate city");
+				List<Car> cars = carDao.findAll(new CarCriteria(item.getNumberplate()));
+				if (!cars.isEmpty()) {
+					for (Car car : cars) {
+						if (!car.getId().equals(item.getId())) {
+							error(getString("error.car.numberplate"));
+							return false;
+						}
+					}
+				}
 				return true;
 			}			
 		}; 

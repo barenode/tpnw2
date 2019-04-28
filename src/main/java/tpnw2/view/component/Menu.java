@@ -19,8 +19,8 @@ public class Menu extends Panel {
 	public Menu(String id) {
 		super(id);
 		add(new PageLink<>("dashboard", DashboardPage.class));
-		add(Auth.render(new PageLink<>("orders", OrderPage.class), 			Auth.ADMINISTRATOR, Auth.MANAGER));			
-		add(Auth.render(new PageLink<>("employees", EmployeePage.class), 	Auth.ADMINISTRATOR, Auth.MANAGER));
+		add(new PageLink<>("orders", OrderPage.class));
+		add(Auth.render(new PageLink<>("employees", EmployeePage.class), 	Auth.ADMINISTRATOR));
 		add(Auth.render(new PageLink<>("offices", OfficePage.class), 		Auth.ADMINISTRATOR));
 		add(Auth.render(new PageLink<>("cars", CarPage.class), 				Auth.ADMINISTRATOR));
 		add(Auth.render(new PageLink<>("clients", CompanyPage.class),		Auth.ADMINISTRATOR));

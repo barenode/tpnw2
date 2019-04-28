@@ -1,5 +1,13 @@
 <wicket:panel>
 <div class="form-group">
+    <label wicket:for="email"><wicket:message key="email" /></label>
+    <input wicket:id="email" type="text" class="form-control">
+</div>
+<div class="form-group">
+    <label wicket:for="password"><wicket:message key="password" /></label>
+    <input wicket:id="password" type="password" class="form-control">
+</div>
+<div class="form-group">
     <label wicket:for="firstname"><wicket:message key="firstname" /></label>
     <input wicket:id="firstname" type="text" class="form-control">
 </div>
@@ -8,7 +16,15 @@
     <input wicket:id="lastname" type="text" class="form-control">
 </div>
 <div class="form-group">
+	<label wicket:for="office"><wicket:message key="office" /></label>
+	<select wicket:id="office" class="form-control" />
+</div>
+<div class="form-group">
     <label wicket:for="cars"><wicket:message key="cars" /></label>
     <select wicket:id="cars" multiple class="form-control" />
+</div>
+<div class="form-group">
+    <label wicket:for="administrator"><wicket:message key="admin.access" /></label>
+    <input wicket:id="administrator" type="checkbox" />
 </div>
 </wicket:panel>

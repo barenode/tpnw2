@@ -7,6 +7,7 @@ public class Office implements Serializable {
 	
 	private Integer id;
 	private String city;
+	private Employee manager;
 	
 	public Office() {
 		super();
@@ -32,6 +33,14 @@ public class Office implements Serializable {
 
 	public void setCity(String city) {
 		this.city = city;
+	}	
+
+	public Employee getManager() {
+		return manager;
+	}
+
+	public void setManager(Employee manager) {
+		this.manager = manager;
 	}
 
 	@Override
@@ -67,6 +76,6 @@ public class Office implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Office [id=" + id + ", city=" + city + "]";
+		return city;
 	}
 }

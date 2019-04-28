@@ -13,20 +13,30 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import tpnw2.domain.Company;
 import tpnw2.domain.CompanyCriteria;
+import tpnw2.domain.Contract;
+import tpnw2.domain.Employee;
+import tpnw2.domain.EmployeeCriteria;
+import tpnw2.domain.Office;
+import tpnw2.domain.Order;
+import tpnw2.domain.OrderCriteria;
 import tpnw2.persistence.CompanyDao;
+import tpnw2.persistence.OrderDao;
 import tpnw2.view.component.MasterDetail;
 
 @SuppressWarnings("serial")
 public class CompanyPage extends PageBase {
 
 	@SpringBean CompanyDao companyDao;
+	@SpringBean OrderDao orderDao;
 	
 	public CompanyPage(final PageParameters parameters) {
 		super(parameters);		
 		MasterDetail<Company, CompanyCriteria> main = new MasterDetail<Company, CompanyCriteria>("main", companyDao) {
 			@Override
 			protected Company newItem() {
-				return new Company();
+				Company item = new Company();
+				item.setContract(new Contract());
+				return item;
 			}
 
 			@Override
@@ -59,9 +69,27 @@ public class CompanyPage extends PageBase {
 
 			@Override
 			protected boolean checkBeforePersist(Company item) {
-				//error("Duplicate city");
+				List<Company> companies = companyDao.findAll(new CompanyCriteria(item.getName()));
+				if (!companies.isEmpty()) {
+					for (Company company : companies) {
+						if (!company.getId().equals(item.getId())) {
+							error(getString("error.client.name"));
+							return false;
+						}
+					}
+				}
 				return true;
-			}			
+			}	
+			
+			@Override
+			protected boolean checkBeforeRemove(Company item) { 
+				List<Order> orders = orderDao.findAll(new OrderCriteria(item));
+				if (!orders.isEmpty()) {
+					error(getString("error.client.remove.order"));
+					return false;
+				} 
+				return true; 				
+			}	
 		}; 
 		add(main);		
 	}

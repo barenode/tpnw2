@@ -1,5 +1,6 @@
 package tpnw2.persistence;
 
+import java.util.Arrays;
 import java.util.function.Function;
 
 import tpnw2.domain.Company;
@@ -15,6 +16,7 @@ public interface CompanyDao extends Dao<Company, CompanyCriteria> {
 		valueObject.setId(e.getId());
 		valueObject.setPhone(e.getPhone());
 		valueObject.setName(e.getName());
+		valueObject.setContract(ContractDao.toValueObject.apply(e.getContracts().get(0)));
 		return valueObject;
 	};
 	
@@ -26,6 +28,7 @@ public interface CompanyDao extends Dao<Company, CompanyCriteria> {
 		entity.setId(v.getId());
 		entity.setPhone(v.getPhone());
 		entity.setName(v.getName());
+		entity.setContracts(Arrays.asList(ContractDao.toEntity.apply(v.getContract())));
 		return entity;
 	};
 }

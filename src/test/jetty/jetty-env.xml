@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE Configure PUBLIC "-//Jetty//Configure//EN" "http://www.eclipse.org/jetty/configure_9_0.dtd">
+<!-- ============================================================= -->
+<!-- Configure a HTTP connector.                                  -->
+<!-- ============================================================= -->
+<Configure>
+	
+	<New id="TPNW2DS" class="org.eclipse.jetty.plus.jndi.Resource">
+		<Arg>jdbc/TPNW2DS</Arg>
+		<Arg>
+			<New class="com.microsoft.sqlserver.jdbc.SQLServerDataSource">
+				<Set name="URL">jdbc:sqlserver://hylmafr1.database.windows.net:1433;databaseName=tpnw</Set>
+				<Set name="User">hylmafr1</Set>
+				<Set name="Password">FraHyl760630</Set>
+			</New>
+		</Arg>
+	</New>
+	
+</Configure>

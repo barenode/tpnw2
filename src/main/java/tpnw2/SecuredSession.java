@@ -1,56 +1,78 @@
 package tpnw2;
 
+import java.util.List;
+
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authroles.authorization.strategies.role.Roles;
 import org.apache.wicket.request.Request;
+import org.apache.wicket.spring.injection.annot.SpringBean;
+
+import tpnw2.domain.Employee;
+import tpnw2.domain.Office;
+import tpnw2.persistence.EmployeeDao;
+import tpnw2.persistence.OfficeDao;
 
 @SuppressWarnings("serial")
 public class SecuredSession extends AuthenticatedWebSession {
     
-    private String username;
+	private static final Roles UNSIGNED = new Roles();
+	
+	@SpringBean private EmployeeDao employeeDao;
+	@SpringBean private OfficeDao officeDao;	
+	
+    private Employee employee;
+    private Roles roles;
+    private Office office;
     
     public SecuredSession(Request request) {
         super(request);
     }
     
     @Override
-    public boolean authenticate(String username, String password) {
-        System.out.println("username: " + username + ", password: " + password); 
-    	//user is authenticated if both username and password are equal to 'test'
-          this.username = username;
-          
-          if(password.equals("driver"))
-              return true;
-          else if(username.equals("manager"))
-              return true;
-          else if(username.equals("admin"))
-              return true;
-          
-          return false;
+    public boolean authenticate(String email, String password) {   
+        employee = employeeDao.findByEmail(email);
+        if (employee!=null) {
+        	if (employee.getPassword().equals(password)) {
+        		roles = new Roles();    
+        		roles.add(Auth.SIGNEDIN);
+                 if (employee.isAdministrator()) {
+                	 roles.add(Auth.ADMINISTRATOR);
+                }
+                List<Office> managedOffices = officeDao.findByManager(employee.getId());
+                if (!managedOffices.isEmpty()) {
+                	roles.add(Auth.MANAGER);
+                	office = managedOffices.get(0);
+                } else {
+                	office = employee.getOffice();
+                }                
+        		return true;
+        	}
+        }          
+        return false;
     }
     
     @Override
     public Roles getRoles() {
-        Roles resultRoles = new Roles();
-    
-        //if user is signed in add the relative role
         if(isSignedIn()){
-            resultRoles.add(Auth.SIGNEDIN);
-        }
-     
-        //if username is equal to 'superuser' add the ADMIN role
-        if(username!= null && username.equals("admin")){
-            resultRoles.add(Auth.ADMINISTRATOR);
-        }
-        if(username!= null && username.equals("manager")){
-            resultRoles.add(Auth.MANAGER);
-        }
-        return resultRoles;
+        	return roles;
+        } else {
+        	return UNSIGNED;
+        }        
     }
     
     @Override
     public void signOut() {
         super.signOut();
-        username = null;
+        employee = null;
+        roles = null;
+        office = null;
     }
+
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public Office getOffice() {
+		return office;
+	} 		
 }

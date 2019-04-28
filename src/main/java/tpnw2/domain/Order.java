@@ -1,6 +1,7 @@
 package tpnw2.domain;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class Order implements Serializable {
@@ -15,6 +16,9 @@ public class Order implements Serializable {
 	private Employee administrator;
 	private Employee driver;
 	private Client client;
+	private Integer distance;
+	private BigDecimal price;
+	private Car car;
 	
 	public Order() {
 		super();
@@ -90,5 +94,29 @@ public class Order implements Serializable {
 
 	public void setClient(Client client) {
 		this.client = client;
+	}
+
+	public Integer getDistance() {
+		return distance;
+	}
+
+	public void setDistance(Integer distance) {
+		this.distance = distance;
+	}
+
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+
+	public Car getCar() {
+		return car;
+	}
+
+	public void setCar(Car car) {
+		this.car = car;
 	}	
 }

@@ -16,9 +16,12 @@ public interface OrderDao extends Dao<Order, OrderCriteria> {
 		valueObject.setDepartureDate(e.getDepartureDate());
 		valueObject.setDestinationAddress(e.getDestinationAddress());
 		valueObject.setOffice(OfficeDao.toValueObject.apply(e.getOffice()));
-		valueObject.setDriver(EmployeeDao.toValueObjectLight.apply(e.getDriver()));
+		valueObject.setDriver(EmployeeDao.toValueObject.apply(e.getDriver()));
 		valueObject.setAdministrator(EmployeeDao.toValueObjectLight.apply(e.getAdministrator()));
 		valueObject.setClient(ClientDao.toValueObject.apply(e.getClient()));
+		valueObject.setDistance(e.getDistance());
+		valueObject.setPrice(e.getPrice());
+		valueObject.setCar(CarDao.toValueObject.apply(e.getCar()));
 		return valueObject;
 	};
 	
@@ -35,6 +38,9 @@ public interface OrderDao extends Dao<Order, OrderCriteria> {
 		entity.setDriver(EmployeeDao.toEntity.apply(v.getDriver()));
 		entity.setAdministrator(EmployeeDao.toEntity.apply(v.getAdministrator()));
 		entity.setClient(ClientDao.toEntity.apply(v.getClient()));
+		entity.setDistance(v.getDistance());
+		entity.setPrice(v.getPrice());
+		entity.setCar(CarDao.toEntity.apply(v.getCar()));
 		return entity;
 	};
 }

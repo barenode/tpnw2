@@ -21,6 +21,9 @@ public class CompanyDaoImpl extends DaoBase<Company, CompanyCriteria, CompanyEnt
 	@PersistenceContext
 	private EntityManager em;	
 	
+//	@Autowired
+//	private ContractDao contractDao;
+	
 	@Override
 	protected EntityManager em() {
 		return em;
@@ -59,4 +62,14 @@ public class CompanyDaoImpl extends DaoBase<Company, CompanyCriteria, CompanyEnt
 	protected boolean isNewItem(Company item) {
 		return item.getId() == null;
 	}	
+	
+//	@Transactional
+//	@Override
+//	public Company save(Company item) {
+//		Contract contract = item.getContract();
+//		if (contract.getId()==null) {
+//			item.setContract(contractDao.save(contract));
+//		}
+//		return super.save(item);
+//	}
 }

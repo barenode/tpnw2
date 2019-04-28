@@ -115,12 +115,7 @@
 		  <type>pom</type>
 		</dependency>
         
-		<!-- SQL SERVER -->
-		<dependency>
-			<groupId>com.microsoft.sqlserver</groupId>
-			<artifactId>mssql-jdbc</artifactId>
-			<version>7.2.1.jre8</version>
-		</dependency>
+		
 
 		<!-- LOGGING DEPENDENCIES - SLF4J-SIMPLE -->
 		<dependency>
@@ -221,6 +216,14 @@
 					</systemProperties>
 					<jettyXml>${project.basedir}/src/test/jetty/jetty.xml,${project.basedir}/src/test/jetty/jetty-ssl.xml,${project.basedir}/src/test/jetty/jetty-http.xml,${project.basedir}/src/test/jetty/jetty-https.xml</jettyXml>
 				</configuration>
+				<dependencies>
+					<!-- SQL SERVER -->
+					<dependency>
+						<groupId>com.microsoft.sqlserver</groupId>
+						<artifactId>mssql-jdbc</artifactId>
+						<version>7.2.1.jre8</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

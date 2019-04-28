@@ -10,6 +10,11 @@ public class CompanyCriteria implements Serializable {
 	public CompanyCriteria() {
 		super();
 	}
+	
+	public CompanyCriteria(String name) {
+		super();
+		this.name = name;
+	}
 
 	public String getName() {
 		return name;

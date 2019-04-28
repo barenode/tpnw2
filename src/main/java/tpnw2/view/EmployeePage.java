@@ -13,13 +13,17 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import tpnw2.domain.Employee;
 import tpnw2.domain.EmployeeCriteria;
+import tpnw2.domain.Order;
+import tpnw2.domain.OrderCriteria;
 import tpnw2.persistence.EmployeeDao;
+import tpnw2.persistence.OrderDao;
 import tpnw2.view.component.MasterDetail;
 
 @SuppressWarnings("serial")
 public class EmployeePage extends PageBase {
 
 	@SpringBean EmployeeDao employeeDao;
+	@SpringBean OrderDao orderDao;
 	
 	public EmployeePage(final PageParameters parameters) {
 		super(parameters);		
@@ -39,6 +43,8 @@ public class EmployeePage extends PageBase {
 				List<IColumn<Employee, String>> columns = new ArrayList<>();		
 				columns.add(new PropertyColumn<>(new ResourceModel("firstname"), "firstname", "firstname"));
 				columns.add(new PropertyColumn<>(new ResourceModel("lastname"), "lastname", "lastname"));
+				columns.add(new PropertyColumn<>(new ResourceModel("email"), "email", "email"));
+				columns.add(new PropertyColumn<>(new ResourceModel("office"), "office", "office"));
 				return columns;
 			}
 
@@ -59,7 +65,25 @@ public class EmployeePage extends PageBase {
 
 			@Override
 			protected boolean checkBeforePersist(Employee item) {
-				//error("Duplicate city");
+				List<Employee> employees = employeeDao.findAll(new EmployeeCriteria(item.getEmail()));
+				if (!employees.isEmpty()) {
+					for (Employee employee : employees) {
+						if (!employee.getId().equals(item.getId())) {
+							error(getString("error.employee.email"));
+							return false;
+						}
+					}
+				}
+				return true;
+			}
+
+			@Override
+			protected boolean checkBeforeRemove(Employee item) {
+				List<Order> orders = orderDao.findAll(new OrderCriteria(item));
+				if (!orders.isEmpty()) {
+					error(getString("error.employee.remove.order"));
+					return false;
+				} 
 				return true;
 			}			
 		}; 

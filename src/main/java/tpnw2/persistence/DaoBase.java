@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.function.Function;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -98,11 +97,15 @@ public abstract class DaoBase<T extends Serializable, C extends Serializable, E>
 
 	@Override
 	@Transactional
-	public void save(T item) {
+	public T save(T item) {
 		if (isNewItem(item)) {
-			em().persist(entityConversion().apply(item));		
+			E e = entityConversion().apply(item);
+			em().persist(e);		
+			return valueObjectConversion().apply(e);
 		} else {
-			em().merge(entityConversion().apply(item));		
+			E e = entityConversion().apply(item);
+			em().merge(e);		
+			return valueObjectConversion().apply(e);
 		}
 	}
 }

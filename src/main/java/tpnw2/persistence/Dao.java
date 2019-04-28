@@ -15,5 +15,5 @@ public interface Dao<T extends Serializable, C extends Serializable> {
 	
 	void remove(T item);
 	
-	void save(T item);
+	T save(T item);
 }
