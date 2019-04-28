@@ -2,6 +2,7 @@ package tpnw2.view;
 
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -39,14 +40,25 @@ public class DashboardPage extends PageBase {
 				}				
 			};
 			add(ordercountChart);
-			ordercountChart.add(new MorrisChart<>("chart", "Bar", ordercount()));			
+			ordercountChart.add(new MorrisChart<>("chart", "Bar", ordercount()));		
+			ordercountChart.add(new Label("chartLabel", chartLabel()));			
 			//ratios
 			WebMarkupContainer ratioChart = new WebMarkupContainer("ratioChart");
 			add(ratioChart);
 			ratioChart.add(new MorrisChart<>("chart", "Donut", ratio()));
-			
+			ratioChart.add(new Label("chartLabel", chartLabel()));			
 		}		
 	}		
+	
+	private String chartLabel() {
+		if (Auth.isAdministrator()) {
+			return "";
+		} else if (Auth.isManager()) {
+			return " - " + Auth.office();
+		} else {
+			return " - " + Auth.logged();
+		}
+	}
 
 	private Dataset<Record> ordercount() {
 		Office office = null;

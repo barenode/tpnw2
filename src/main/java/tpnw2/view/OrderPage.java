@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.extensions.markup.html.repeater.data.sort.SortOrder;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
@@ -24,6 +25,7 @@ import tpnw2.persistence.OrderDao;
 import tpnw2.view.component.EnumModel;
 import tpnw2.view.component.MasterDetail;
 
+@AuthorizeInstantiation(Auth.SIGNEDIN)
 @SuppressWarnings("serial")
 public class OrderPage  extends PageBase {
 
