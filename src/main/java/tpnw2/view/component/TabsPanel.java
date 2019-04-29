@@ -3,14 +3,15 @@ package tpnw2.view.component;
 import java.util.List;
 
 import org.apache.wicket.Component;
-import org.apache.wicket.extensions.ajax.markup.html.tabs.AjaxTabbedPanel;
 import org.apache.wicket.extensions.markup.html.tabs.ITab;
+import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.list.LoopItem;
 import org.apache.wicket.markup.html.panel.EmptyPanel;
 
-public class TabsPanel<T extends ITab> extends AjaxTabbedPanel<T> {
+public class TabsPanel<T extends ITab> extends TabbedPanel<T> {
 	private static final long serialVersionUID = 1L;
 
 	public TabsPanel(String id, List<T> tabs) {
@@ -48,6 +49,17 @@ public class TabsPanel<T extends ITab> extends AjaxTabbedPanel<T> {
 		WebMarkupContainer tabsContainer = super.newTabsContainer(id);
 		//tabsContainer.add(newAlternateHeaderContent("alternateHeaderContent"));
 		return tabsContainer;
+	}
+	
+
+	@Override
+	protected WebMarkupContainer newLink(String linkId, int index) {
+		return new SubmitLink(linkId) {
+			@Override
+			public void onSubmit() {			
+				setSelectedTab(index);
+			}
+		}.setDefaultFormProcessing(false);
 	}
 
 	/**
